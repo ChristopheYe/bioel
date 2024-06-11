@@ -5,15 +5,15 @@ import os
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-# Define the Cython extension
-cython_extensions = [
-    Extension(
-        "bioel.models.arboel.biencoder.model.special_partition.special_partition",
-        ["bioel/models/arboel/biencoder/model/special_partition/special_partition.pyx"],
-        include_dirs=[numpy.get_include()],
-        define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
-    )
-]
+# # Define the Cython extension
+# cython_extensions = [
+#     Extension(
+#         "bioel.models.arboel.biencoder.model.special_partition.special_partition",
+#         ["bioel/models/arboel/biencoder/model/special_partition/special_partition.pyx"],
+#         include_dirs=[numpy.get_include()],
+#         define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+#     )
+# ]
 
 # Setup function to include the Cython extension
 setup(
