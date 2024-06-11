@@ -1,19 +1,28 @@
 from setuptools import setup, find_packages, Extension
-from Cython.Build import cythonize
-import numpy
 import os
+import subprocess
 
-here = os.path.abspath(os.path.dirname(__file__))
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    subprocess.check_call([os.sys.executable, "-m", "pip", "install", "cython"])
+    from Cython.Build import cythonize
 
-# # Define the Cython extension
-# cython_extensions = [
-#     Extension(
-#         "bioel.models.arboel.biencoder.model.special_partition.special_partition",
-#         ["bioel/models/arboel/biencoder/model/special_partition/special_partition.pyx"],
-#         include_dirs=[numpy.get_include()],
-#         define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
-#     )
-# ]
+try:
+    import numpy
+except ImportError:
+    subprocess.check_call([os.sys.executable, "-m", "pip", "install", "numpy"])
+    import numpy
+
+# Define the Cython extension
+cython_extensions = [
+    Extension(
+        "bioel.models.arboel.biencoder.model.special_partition.special_partition",
+        ["bioel/models/arboel/biencoder/model/special_partition/special_partition.pyx"],
+        include_dirs=[numpy.get_include()],
+        define_macros=[("NPY_NO_DEPRECATED_API", "NPY_1_7_API_VERSION")],
+    )
+]
 
 # Setup function to include the Cython extension
 setup(
@@ -33,7 +42,8 @@ setup(
         "biomedical-entity-linking",
     ],
     packages=find_packages(),
-    python_requires=">= 3.9",
+    python_requires=">=3.9",
+    setup_requires=["numpy", "cython"],  # Ensures numpy and cython are installed early
     install_requires=[
         "pytest",
         "tqdm",
